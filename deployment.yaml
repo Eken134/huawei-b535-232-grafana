@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: huawei-lte-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: huawei-lte-exporter
+  template:
+    metadata:
+      labels:
+        app: huawei-lte-exporter
+    spec:
+      imagePullSecrets:
+        - name: registry-pull-secret
+      containers:
+        - name: exporter
+          image: registry.example.internal/your-project/huawei-lte-exporter:latest
+          env:
+            - name: ROUTER_ADDRESS
+              value: "192.168.x.x"
+            - name: ROUTER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: huawei-lte-secret
+                  key: username
+            - name: ROUTER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: huawei-lte-secret
+                  key: password
+            - name: PROM_PORT
+              value: "8080"
+          ports:
+            - containerPort: 8080

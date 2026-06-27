@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: huawei-lte-exporter
+  namespace: router-grafana
+  labels:
+    app: huawei-lte-exporter
+spec:
+  selector:
+    app: huawei-lte-exporter
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: metrics

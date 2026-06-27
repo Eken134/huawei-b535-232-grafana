@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: huawei-lte-exporter
+  namespace: router-grafana
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: huawei-lte-exporter
+  endpoints:
+    - port: metrics
+      interval: 30s
